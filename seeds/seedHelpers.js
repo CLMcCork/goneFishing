@@ -29,7 +29,7 @@ module.exports.places = [
     'Ghost Town',
     'Cut',
     'Corner',
-    'Backcountry',
+    'Swamp',
     'River',
     'Creek',
     'Creekside',
