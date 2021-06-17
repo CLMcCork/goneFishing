@@ -9,5 +9,5 @@ const FishingholeSchema = new Schema({
     location: String
 });
 
-//export model 
+//export model --model name = Fishinghole 
 module.exports = mongoose.model('Fishinghole', FishingholeSchema);

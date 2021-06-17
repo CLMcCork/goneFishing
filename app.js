@@ -25,12 +25,22 @@ app.get('/', (req, res) => {
     res.render('home');
 })
 
-//making a hardcoded route to see if works 
-app.get('/makefishinghole', async (req, res) => {
-    const hole = new Fishinghole({ title: 'M&D Farm', description: 'Biggest crappie I have ever seen!' });
-    await hole.save();
-    res.send(hole);
+//Index Route
+app.get('/fishingholes', async (req, res) => {
+    const fishingholes = await Fishinghole.find({});
+    res.render('fishingholes/index', { fishingholes });
 })
+
+//Show Route for a single fishing hole 
+
+
+
+//making a hardcoded route to see if works --it does! Yay!!!
+// app.get('/makefishinghole', async (req, res) => {
+//     const hole = new Fishinghole({ title: 'M&D Farm', description: 'Biggest crappie I have ever seen!' });
+//     await hole.save();
+//     res.send(hole);
+// })
 
 
 app.listen(3000, () => {
