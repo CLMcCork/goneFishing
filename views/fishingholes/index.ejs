@@ -10,7 +10,7 @@
     <h1>All Fishing Holes!</h1>
     <ul>
         <% for (let fishinghole of fishingholes) { %>
-            <li><%= fishinghole.title %></li>
+            <li><a href="/fishingholes/<%= fishinghole._id %>"><%=fishinghole.title %></a></li>
         <% } %> 
     </ul>
 </body>

@@ -25,13 +25,17 @@ app.get('/', (req, res) => {
     res.render('home');
 })
 
-//Index Route
+//INDEX Route
 app.get('/fishingholes', async (req, res) => {
     const fishingholes = await Fishinghole.find({});
     res.render('fishingholes/index', { fishingholes });
 })
 
-//Show Route for a single fishing hole 
+//SHOW (details) Route for a single fishing hole 
+app.get('/fishingholes/:id', async (req, res) => {
+    const fishinghole = await Fishinghole.findById(req.params.id);
+    res.render('fishingholes/show', { fishinghole });
+})
 
 
 
