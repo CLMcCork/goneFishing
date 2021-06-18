@@ -20,6 +20,9 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views')); 
 
+//parses request.body so can see what user types in form 
+app.use(express.urlencoded({extended: true}));
+
 
 app.get('/', (req, res) => {
     res.render('home');
@@ -34,6 +37,13 @@ app.get('/fishingholes', async (req, res) => {
 //make a NEW form and serve it 
 app.get('/fishingholes/new', (req, res) => {
     res.render('fishingholes/new');
+});
+
+//CREATE--this is where the form is submitted to 
+app.post('/fishingholes', async (req, res) => {
+    const fishinghole = new Fishinghole(req.body.fishinghole);
+    await fishinghole.save();
+    res.redirect(`/fishingholes/${fishinghole._id}`);
 });
 
 //SHOW (details) Route for a single fishing hole 
