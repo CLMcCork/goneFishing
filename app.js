@@ -31,6 +31,11 @@ app.get('/fishingholes', async (req, res) => {
     res.render('fishingholes/index', { fishingholes });
 });
 
+//make a NEW form and serve it 
+app.get('/fishingholes/new', (req, res) => {
+    res.render('fishingholes/new');
+});
+
 //SHOW (details) Route for a single fishing hole 
 app.get('/fishingholes/:id', async (req, res) => {
     const fishinghole = await Fishinghole.findById(req.params.id);
