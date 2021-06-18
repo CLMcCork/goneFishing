@@ -23,19 +23,19 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.get('/', (req, res) => {
     res.render('home');
-})
+});
 
 //INDEX Route
 app.get('/fishingholes', async (req, res) => {
     const fishingholes = await Fishinghole.find({});
     res.render('fishingholes/index', { fishingholes });
-})
+});
 
 //SHOW (details) Route for a single fishing hole 
 app.get('/fishingholes/:id', async (req, res) => {
     const fishinghole = await Fishinghole.findById(req.params.id);
     res.render('fishingholes/show', { fishinghole });
-})
+});
 
 
 
@@ -49,4 +49,4 @@ app.get('/fishingholes/:id', async (req, res) => {
 
 app.listen(3000, () => {
     console.log('Listening on port 3000!')
-})
+});
