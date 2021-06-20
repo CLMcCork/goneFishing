@@ -53,6 +53,18 @@ app.get('/fishingholes/:id', async (req, res) => {
 });
 
 
+//EDIT and UPDATE
+//this route serves the edit/update form 
+app.get('/fishingholes/:id/edit', async (req, res) => {
+    const fishinghole = await Fishinghole.findById(req.params.id);
+    res.render('fishingholes/edit', { fishinghole });
+});
+
+
+
+//EDIT and UPDATE
+//this route submits the edit/update form 
+
 
 //making a hardcoded route to see if works --it does! Yay!!!
 // app.get('/makefishinghole', async (req, res) => {
