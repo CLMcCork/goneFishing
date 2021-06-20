@@ -11,14 +11,14 @@
     <form action="/fishingholes" method ="POST">
         <div>
             <label for="title">Title</label>
-            <input type="text" id="title" name="fishinghole[title]">
+            <input type="text" id="title" name="fishinghole[title]" value="<%= fishinghole.title %>">
         </div>
         <div>
             <label for="location">Location</label>
-            <input type="text" id="location" name="fishinghole[location]">
+            <input type="text" id="location" name="fishinghole[location]" value="<%= fishinghole.location %>">
         </div>
-        <button>Add Fishing Hole</button>
+        <button>Update Fishing Hole</button>
     </form>
-    <a href="/fishingholes">Back to ALL Fishing Holes</a>
+    <a href="/fishingholes/<%= fishinghole._id %>">Back to Fishing Hole</a>
 </body>
 </html>
