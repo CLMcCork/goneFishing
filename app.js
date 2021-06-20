@@ -73,12 +73,12 @@ app.put('/fishingholes/:id', async (req, res) => {
 });
 
 
-//making a hardcoded route to see if works --it does! Yay!!!
-// app.get('/makefishinghole', async (req, res) => {
-//     const hole = new Fishinghole({ title: 'M&D Farm', description: 'Biggest crappie I have ever seen!' });
-//     await hole.save();
-//     res.send(hole);
-// })
+//DELETE a fishing hole 
+app.delete('/fishingholes/:id', async (req, res) => {
+    const { id } = req.params;
+    await Fishinghole.findByIdAndDelete(id);
+    res.redirect('/fishingholes');
+});
 
 
 app.listen(3000, () => {
