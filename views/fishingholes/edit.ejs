@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Fishing Hole</title>
+</head>
+<body>
+    <h1>Edit Fishing Hole</h1>
+    <form action="/fishingholes" method ="POST">
+        <div>
+            <label for="title">Title</label>
+            <input type="text" id="title" name="fishinghole[title]">
+        </div>
+        <div>
+            <label for="location">Location</label>
+            <input type="text" id="location" name="fishinghole[location]">
+        </div>
+        <button>Add Fishing Hole</button>
+    </form>
+    <a href="/fishingholes">Back to ALL Fishing Holes</a>
+</body>
+</html>
