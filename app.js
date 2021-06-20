@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path'); 
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 const Fishinghole = require('./models/fishingHole');
 
 mongoose.connect('mongodb://localhost:27017/fishing-hole', {
@@ -20,8 +21,9 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views')); 
 
-//parses request.body so can see what user types in form 
+//this parses request.body so can see what user types in form 
 app.use(express.urlencoded({extended: true}));
+app.use(methodOverride('_method'));
 
 
 app.get('/', (req, res) => {
@@ -64,6 +66,11 @@ app.get('/fishingholes/:id/edit', async (req, res) => {
 
 //EDIT and UPDATE
 //this route submits the edit/update form 
+app.put('/fishingholes/:id', async (req, res) => {
+    const { id } = req.params;
+    const fishinghole = await Fishinghole.findByIdAndUpdate(id, {...req.body.fishinghole});
+    res.redirect(`/fishingholes/${fishinghole._id}`);
+});
 
 
 //making a hardcoded route to see if works --it does! Yay!!!
