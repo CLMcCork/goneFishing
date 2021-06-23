@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 //schema 
 const FishingholeSchema = new Schema({
     title: String,
-    price: Number, //or parking lot price? 
+    image: String,
+    price: Number, //or parking lot price? //fishing license? 
     description: String,
     location: String
 });

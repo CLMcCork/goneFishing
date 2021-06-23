@@ -1,6 +1,8 @@
 <% layout('layouts/boilerplate') %> 
 <h1><%= fishinghole.title %></h1>
 <h2><%= fishinghole.location %></h2>
+<img src="<%= fishinghole.image %>" alt="Fishing Hole Image">
+<p><%= fishinghole.description %></p>
     <p><a href="/fishingholes/<%= fishinghole._id %>/edit">Edit</a></p>
     <p>
         <form action="/fishingholes/<%= fishinghole._id %>?_method=DELETE" method="POST">
