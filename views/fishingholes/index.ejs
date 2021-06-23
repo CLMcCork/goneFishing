@@ -3,8 +3,21 @@
 <div>
     <a href="/fishingholes/new">Add Fishing Hole</a>
 </div>
-<ul>
+
     <% for (let fishinghole of fishingholes) { %>
-    <li><a href="/fishingholes/<%= fishinghole._id %>"><%=fishinghole.title %></a></li>
+    <div class="card" mb-3>
+        <div class="col-md-4">
+            <img class="img-fluid" src="<%=fishinghole.image %>" alt="Fishing Hole Image">
+        </div>
+        <div class="col-md-8">
+        <div class="card-body">
+            <h5 class="card-title"><%= fishinghole.title %></h5>
+            <p class="card-text"><%= fishinghole.description %></p>
+            <p class="card-text">
+                <small class="text-muted"><%= fishinghole.location %></small>
+            </p>
+            <a class="btn btn-primary" href="/fishingholes/<%= fishinghole._id %>">View <%= fishinghole.title %></a>
+        </div>
+        </div>
+    </div>
     <% } %> 
-</ul>
