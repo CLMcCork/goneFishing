@@ -1,14 +1,38 @@
 <% layout('layouts/boilerplate') %> 
-<h1><%= fishinghole.title %></h1>
-<h2><%= fishinghole.location %></h2>
-<img src="<%= fishinghole.image %>" alt="Fishing Hole Image">
-<p><%= fishinghole.description %></p>
-    <p><a href="/fishingholes/<%= fishinghole._id %>/edit">Edit</a></p>
-    <p>
-        <form action="/fishingholes/<%= fishinghole._id %>?_method=DELETE" method="POST">
-            <button>Delete</button>
-        </form>
-    </p>
-<footer>
-    <a href="/fishingholes">All Fishing Holes</a>
-</footer>
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card mb-3">
+            <img src="<%= fishinghole.image %>" class="card-img-top" alt="Fishing Hole Image">
+            <div class="card-body">
+              <h5 class="card-title"><%= fishinghole.title %></h5>
+              <p class="card-text"><%= fishinghole.description %></p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item text-muted"><%= fishinghole.location %></li>
+              <li class="list-group-item">$<%= fishinghole.price %>/day</li>
+            </ul>
+            <div class="card-body">
+                <a class="card-link btn btn-info" href="/fishingholes/<%= fishinghole._id %>/edit">Edit</a>
+                <form class="d-inline" action="/fishingholes/<%= fishinghole._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+            <div class="card-footer text-muted">
+                2 days ago
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
