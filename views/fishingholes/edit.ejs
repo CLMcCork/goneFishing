@@ -2,30 +2,45 @@
 <div class="row">
     <h1 class="text-center">Edit Fishing Hole</h1>
     <div class="col-6 offset-3">
-        <form action="/fishingholes/<%= fishinghole._id %>?_method=PUT" method ="POST">
+        <form action="/fishingholes/<%= fishinghole._id %>?_method=PUT" method ="POST" novalidate class="validated-form">
             <div>
             <div class="mb-3">
                 <label class="form-label" for="title">Title</label>
-                <input class="form-control" type="text" id="title" name="fishinghole[title]" value="<%= fishinghole.title %>">
+                <input class="form-control" type="text" id="title" name="fishinghole[title]" value="<%= fishinghole.title %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="location">Location</label>
-                <input class="form-control" type="text" id="location" name="fishinghole[location]" value="<%= fishinghole.location %>">
+                <input class="form-control" type="text" id="location" name="fishinghole[location]" value="<%= fishinghole.location %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="image">Image Url</label>
-                <input class="form-control" type="text" id="image" name="fishinghole[image]" value="<%= fishinghole.image %>">
+                <input class="form-control" type="text" id="image" name="fishinghole[image]" value="<%= fishinghole.image %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="price">Price</label>
             <div class="input-group">
                 <span class="input-group-text" id="price-label">$</span>
-                <input type="text" class="form-control" placeholder="0.00" aria-label="price" aria-describedby="price-label" name="fishinghole[price]" value="<%= fishinghole.price %>">
+                <input type="text" class="form-control" placeholder="0.00" aria-label="price" aria-describedby="price-label" name="fishinghole[price]" value="<%= fishinghole.price %>" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
                 </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="description">Description</label>
-                <textarea class="form-control" type="text" id="description" name="fishinghole[description]"><%= fishinghole.description %> </textarea>
+                <textarea class="form-control" type="text" id="description" name="fishinghole[description]" required><%= fishinghole.description %> </textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
             </div>
             <div class="mb-3">
                 <button class="btn btn-success">Update Fishing Hole</button>
