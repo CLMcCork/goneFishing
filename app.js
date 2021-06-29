@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path'); 
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
+const Joi = require('joi');
 const catchAsync = require('./utilities/catchAsync');
 const ExpressError = require('./utilities/ExpressError');
 const methodOverride = require('method-override');
@@ -47,7 +48,21 @@ app.get('/fishingholes/new', (req, res) => {
 
 //CREATE--this is where the form is submitted to 
 app.post('/fishingholes', catchAsync(async (req, res, next) => {
-    if(!req.body.fishinghole) throw new ExpressError('Invalid Fishing Hole Data', 400);
+    const fishingholeSchema = Joi.object({
+        fishinghole: Joi.object({
+            title: Joi.string().required(),
+            price: Joi.number().required().min(0),
+            image: Joi.string().required(),
+            location: Joi.string().required(),
+            description: Joi.string().required()
+        }).required()
+    })
+    const { error } = fishingholeSchema.validate(req.body);
+    if(error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(msg, 400);
+    }
+    console.log(result);
     const fishinghole = new Fishinghole(req.body.fishinghole);
     await fishinghole.save();
     res.redirect(`/fishingholes/${fishinghole._id}`);
