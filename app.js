@@ -3,6 +3,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const catchAsync = require('./utilities/catchAsync');
+const ExpressError = require('./utilities/ExpressError');
 const methodOverride = require('method-override');
 const Fishinghole = require('./models/fishingHole');
 
@@ -46,6 +47,7 @@ app.get('/fishingholes/new', (req, res) => {
 
 //CREATE--this is where the form is submitted to 
 app.post('/fishingholes', catchAsync(async (req, res, next) => {
+    if(!req.body.fishinghole) throw new ExpressError('Invalid Fishing Hole Data', 400);
     const fishinghole = new Fishinghole(req.body.fishinghole);
     await fishinghole.save();
     res.redirect(`/fishingholes/${fishinghole._id}`);
@@ -84,9 +86,16 @@ app.delete('/fishingholes/:id', catchAsync(async (req, res) => {
 }));
 
 
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page Not Found!', 404));
+});
+
+
 //error handler
 app.use((err, req, res, next) => {
-    res.send('Oh no, something went wrong! Maybe the fish stole your bait?! :( ');
+    //the below is from the ExpressError class stuff
+    const { statusCode = 500, message = 'Oh no, something went wrong! Maybe the fish stole your bait?! :(' } = err;
+    res.status(statusCode).send(message);
 });
 
 app.listen(3000, () => {
