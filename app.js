@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path'); 
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
+const catchAsync = require('./utilities/catchAsync');
 const methodOverride = require('method-override');
 const Fishinghole = require('./models/fishingHole');
 
@@ -33,10 +34,10 @@ app.get('/', (req, res) => {
 });
 
 //INDEX Route
-app.get('/fishingholes', async (req, res) => {
+app.get('/fishingholes', catchAsync(async (req, res) => {
     const fishingholes = await Fishinghole.find({});
     res.render('fishingholes/index', { fishingholes });
-});
+}));
 
 //make a NEW form and serve it 
 app.get('/fishingholes/new', (req, res) => {
@@ -44,47 +45,43 @@ app.get('/fishingholes/new', (req, res) => {
 });
 
 //CREATE--this is where the form is submitted to 
-app.post('/fishingholes', async (req, res, next) => {
-    try {
+app.post('/fishingholes', catchAsync(async (req, res, next) => {
     const fishinghole = new Fishinghole(req.body.fishinghole);
     await fishinghole.save();
     res.redirect(`/fishingholes/${fishinghole._id}`);
-    } catch(e) {
-        next(e);
-    }
-});
+}));
 
 //SHOW (details) Route for a single fishing hole 
-app.get('/fishingholes/:id', async (req, res) => {
+app.get('/fishingholes/:id', catchAsync(async (req, res) => {
     const fishinghole = await Fishinghole.findById(req.params.id);
     res.render('fishingholes/show', { fishinghole });
-});
+}));
 
 
 //EDIT and UPDATE
 //this route serves the edit/update form 
-app.get('/fishingholes/:id/edit', async (req, res) => {
+app.get('/fishingholes/:id/edit', catchAsync(async (req, res) => {
     const fishinghole = await Fishinghole.findById(req.params.id);
     res.render('fishingholes/edit', { fishinghole });
-});
+}));
 
 
 
 //EDIT and UPDATE
 //this route submits the edit/update form 
-app.put('/fishingholes/:id', async (req, res) => {
+app.put('/fishingholes/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     const fishinghole = await Fishinghole.findByIdAndUpdate(id, {...req.body.fishinghole});
     res.redirect(`/fishingholes/${fishinghole._id}`);
-});
+}));
 
 
 //DELETE a fishing hole 
-app.delete('/fishingholes/:id', async (req, res) => {
+app.delete('/fishingholes/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Fishinghole.findByIdAndDelete(id);
     res.redirect('/fishingholes');
-});
+}));
 
 
 //error handler
