@@ -94,8 +94,9 @@ app.all('*', (req, res, next) => {
 //error handler
 app.use((err, req, res, next) => {
     //the below is from the ExpressError class stuff
-    const { statusCode = 500, message = 'Oh no, something went wrong! Maybe the fish stole your bait?! :(' } = err;
-    res.status(statusCode).send(message);
+    const { statusCode = 500 } = err;
+    if(!err.message) err.message = 'Oh no! Something went wrong! Maybe the fish stole your bait?!';
+    res.status(statusCode).render('error', { err });
 });
 
 app.listen(3000, () => {
