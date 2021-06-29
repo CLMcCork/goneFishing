@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path'); 
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
-const Joi = require('joi');
+const { fishingholeSchema } = require('./schemas.js');
 const catchAsync = require('./utilities/catchAsync');
 const ExpressError = require('./utilities/ExpressError');
 const methodOverride = require('method-override');
@@ -30,6 +30,18 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 
+//function to validate fishinghole w/ JOI validation middleware
+const validateFishinghole = (req, res, next) => {
+const { error } = fishingholeSchema.validate(req.body);
+if(error) {
+    const msg = error.details.map(el => el.message).join(',');
+    throw new ExpressError(msg, 400);
+} else {
+    next();
+    }
+}   
+
+
 
 app.get('/', (req, res) => {
     res.render('home');
@@ -47,22 +59,7 @@ app.get('/fishingholes/new', (req, res) => {
 });
 
 //CREATE--this is where the form is submitted to 
-app.post('/fishingholes', catchAsync(async (req, res, next) => {
-    const fishingholeSchema = Joi.object({
-        fishinghole: Joi.object({
-            title: Joi.string().required(),
-            price: Joi.number().required().min(0),
-            image: Joi.string().required(),
-            location: Joi.string().required(),
-            description: Joi.string().required()
-        }).required()
-    })
-    const { error } = fishingholeSchema.validate(req.body);
-    if(error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    }
-    console.log(result);
+app.post('/fishingholes', validateFishinghole, catchAsync(async (req, res, next) => {
     const fishinghole = new Fishinghole(req.body.fishinghole);
     await fishinghole.save();
     res.redirect(`/fishingholes/${fishinghole._id}`);
@@ -86,7 +83,7 @@ app.get('/fishingholes/:id/edit', catchAsync(async (req, res) => {
 
 //EDIT and UPDATE
 //this route submits the edit/update form 
-app.put('/fishingholes/:id', catchAsync(async (req, res) => {
+app.put('/fishingholes/:id', validateFishinghole, catchAsync(async (req, res) => {
     const { id } = req.params;
     const fishinghole = await Fishinghole.findByIdAndUpdate(id, {...req.body.fishinghole});
     res.redirect(`/fishingholes/${fishinghole._id}`);
