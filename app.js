@@ -44,10 +44,14 @@ app.get('/fishingholes/new', (req, res) => {
 });
 
 //CREATE--this is where the form is submitted to 
-app.post('/fishingholes', async (req, res) => {
+app.post('/fishingholes', async (req, res, next) => {
+    try {
     const fishinghole = new Fishinghole(req.body.fishinghole);
     await fishinghole.save();
     res.redirect(`/fishingholes/${fishinghole._id}`);
+    } catch(e) {
+        next(e);
+    }
 });
 
 //SHOW (details) Route for a single fishing hole 
@@ -82,6 +86,11 @@ app.delete('/fishingholes/:id', async (req, res) => {
     res.redirect('/fishingholes');
 });
 
+
+//error handler
+app.use((err, req, res, next) => {
+    res.send('Oh no, something went wrong! Maybe the fish stole your bait?! :( ');
+});
 
 app.listen(3000, () => {
     console.log('Listening on port 3000!')
