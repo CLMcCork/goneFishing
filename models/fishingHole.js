@@ -7,7 +7,13 @@ const FishingholeSchema = new Schema({
     image: String,
     price: Number, //or parking lot price? //fishing license? 
     description: String,
-    location: String
+    location: String,
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Review'
+        }
+    ]
 });
 
 //export model --model name = Fishinghole 
