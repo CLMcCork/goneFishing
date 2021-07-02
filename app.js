@@ -7,6 +7,7 @@ const catchAsync = require('./utilities/catchAsync');
 const ExpressError = require('./utilities/ExpressError');
 const methodOverride = require('method-override');
 const Fishinghole = require('./models/fishingHole');
+const Review = require('./models/review');
 
 mongoose.connect('mongodb://localhost:27017/fishing-hole', {
     useNewUrlParser: true,
@@ -95,6 +96,21 @@ app.delete('/fishingholes/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Fishinghole.findByIdAndDelete(id);
     res.redirect('/fishingholes');
+}));
+
+//POST (submits the data from the review form)
+app.post('/fishingholes/:id/reviews', catchAsync(async (req, res) => {
+    //use the id to find the fishinghole 
+    const fishinghole = await Fishinghole.findById(req.params.id);
+    //make a new review
+    const review = new Review(req.body.review);
+    //push onto fishinghole.reviews the new review
+    fishinghole.reviews.push(review);
+    //save
+    await review.save();
+    await fishinghole.save(); 
+    //redirect back to the fishinghole show page
+    res.redirect(`/fishingholes/${fishinghole._id}`);
 }));
 
 
