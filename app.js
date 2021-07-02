@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path'); 
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
-const { fishingholeSchema } = require('./schemas.js');
+const { fishingholeSchema, reviewSchema } = require('./schemas.js');
 const catchAsync = require('./utilities/catchAsync');
 const ExpressError = require('./utilities/ExpressError');
 const methodOverride = require('method-override');
@@ -42,6 +42,16 @@ if(error) {
     }
 }   
 
+//function to validate reviews w/ JOI validation middleware
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body); 
+    if(error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(msg, 400);
+    } else {
+        next();
+    }
+}
 
 
 app.get('/', (req, res) => {
@@ -99,7 +109,7 @@ app.delete('/fishingholes/:id', catchAsync(async (req, res) => {
 }));
 
 //POST (submits the data from the review form)
-app.post('/fishingholes/:id/reviews', catchAsync(async (req, res) => {
+app.post('/fishingholes/:id/reviews', validateReview, catchAsync(async (req, res) => {
     //use the id to find the fishinghole 
     const fishinghole = await Fishinghole.findById(req.params.id);
     //make a new review
