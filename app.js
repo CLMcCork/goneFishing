@@ -78,7 +78,8 @@ app.post('/fishingholes', validateFishinghole, catchAsync(async (req, res, next)
 
 //SHOW (details) Route for a single fishing hole 
 app.get('/fishingholes/:id', catchAsync(async (req, res) => {
-    const fishinghole = await Fishinghole.findById(req.params.id);
+    const fishinghole = await Fishinghole.findById(req.params.id).populate('reviews');
+    //console.log(fishinghole);
     res.render('fishingholes/show', { fishinghole });
 }));
 
