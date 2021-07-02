@@ -27,6 +27,8 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views')); 
 
+mongoose.set('useFindAndModify', false);
+
 //this parses request.body so can see what user types in form 
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
@@ -122,6 +124,15 @@ app.post('/fishingholes/:id/reviews', validateReview, catchAsync(async (req, res
     await fishinghole.save(); 
     //redirect back to the fishinghole show page
     res.redirect(`/fishingholes/${fishinghole._id}`);
+}));
+
+
+//DELETE route to delete a review for a fishinghole 
+app.delete('/fishingholes/:id/reviews/:reviewId', catchAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Fishinghole.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/fishingholes/${id}`);
 }));
 
 
