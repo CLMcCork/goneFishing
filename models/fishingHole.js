@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Review = require('./review');
 const Schema = mongoose.Schema;
 
 //schema 
@@ -14,6 +15,21 @@ const FishingholeSchema = new Schema({
             ref: 'Review'
         }
     ]
+});
+
+
+
+//this is query mongoose middleware
+FishingholeSchema.post('findOneAndDelete', async function(doc) {
+    //console.log("Deleted!");
+    //console.log(doc); shows you the fishinghole that was deleted 
+    if(doc) { //if we did find a document (fishinghole)
+        await Review.deleteMany({ //delete all reviews 
+            _id: { //where their id field is 
+                $in: doc.reviews //in the document that was just deleted in its reviews array
+            }
+        })
+    }
 });
 
 //export model --model name = Fishinghole 
