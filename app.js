@@ -14,7 +14,8 @@ const reviews = require('./routes/reviews');
 mongoose.connect('mongodb://localhost:27017/fishing-hole', {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 });
 
 const db = mongoose.connection;
@@ -29,11 +30,11 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views')); 
 
-mongoose.set('useFindAndModify', false);
 
 //this parses request.body so can see what user types in form 
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 
