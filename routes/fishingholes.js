@@ -34,6 +34,7 @@ router.get('/new', (req, res) => {
 router.post('/', validateFishinghole, catchAsync(async (req, res, next) => {
     const fishinghole = new Fishinghole(req.body.fishinghole);
     await fishinghole.save();
+    req.flash('success', 'Thanks for sharing your Fishing Hole info!')
     res.redirect(`/fishingholes/${fishinghole._id}`);
 }));
 
