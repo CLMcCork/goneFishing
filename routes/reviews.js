@@ -33,6 +33,7 @@ router.post('/', validateReview, catchAsync(async (req, res) => {
     //save
     await review.save();
     await fishinghole.save(); 
+    req.flash('success', 'Created new review!');
     //redirect back to the fishinghole show page
     res.redirect(`/fishingholes/${fishinghole._id}`);
 }));
@@ -43,6 +44,7 @@ router.delete('/:reviewId', catchAsync(async (req, res) => {
     const { id, reviewId } = req.params;
     await Fishinghole.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);
+    req.flash('success', 'Successfully deleted review!');
     res.redirect(`/fishingholes/${id}`);
 }));
 

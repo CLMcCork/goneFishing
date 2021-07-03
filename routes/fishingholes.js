@@ -34,7 +34,7 @@ router.get('/new', (req, res) => {
 router.post('/', validateFishinghole, catchAsync(async (req, res, next) => {
     const fishinghole = new Fishinghole(req.body.fishinghole);
     await fishinghole.save();
-    req.flash('success', 'Thanks for sharing your Fishing Hole info!')
+    req.flash('success', 'Thanks for adding your Fishing Hole info!')
     res.redirect(`/fishingholes/${fishinghole._id}`);
 }));
 
@@ -60,6 +60,7 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
 router.put('/:id', validateFishinghole, catchAsync(async (req, res) => {
     const { id } = req.params;
     const fishinghole = await Fishinghole.findByIdAndUpdate(id, {...req.body.fishinghole});
+    req.flash('success', 'Successfully updated Fishing Hole!');
     res.redirect(`/fishingholes/${fishinghole._id}`);
 }));
 
@@ -68,6 +69,7 @@ router.put('/:id', validateFishinghole, catchAsync(async (req, res) => {
 router.delete('/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Fishinghole.findByIdAndDelete(id);
+    req.flash('success', 'Successfully deleted a Fishing Hole!');
     res.redirect('/fishingholes');
 }));
 
