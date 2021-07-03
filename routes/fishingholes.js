@@ -41,7 +41,10 @@ router.post('/', validateFishinghole, catchAsync(async (req, res, next) => {
 //SHOW (details) Route for a single fishing hole 
 router.get('/:id', catchAsync(async (req, res) => {
     const fishinghole = await Fishinghole.findById(req.params.id).populate('reviews');
-    //console.log(fishinghole);
+    if(!fishinghole) {//if didn't find fishinghole w/ that id, flash this error and redirect
+        req.flash('error', "Oh no! We cannot find that Fishing Hole!");
+        return res.redirect('/fishingholes');
+    }
     res.render('fishingholes/show', { fishinghole });
 }));
 
@@ -50,6 +53,10 @@ router.get('/:id', catchAsync(async (req, res) => {
 //this route serves the edit/update form 
 router.get('/:id/edit', catchAsync(async (req, res) => {
     const fishinghole = await Fishinghole.findById(req.params.id);
+    if(!fishinghole) {
+        req.flash('error', "Oh no! We cannot find that Fishing Hole!");
+        return res.redirect('/fishingholes');
+    }
     res.render('fishingholes/edit', { fishinghole });
 }));
 
