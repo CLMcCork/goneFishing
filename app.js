@@ -11,8 +11,9 @@ const localStrategy = require('passport-local');
 const User = require('./models/user');
 
 
-const fishingholes = require('./routes/fishingholes');
-const reviews = require('./routes/reviews');
+const userRoutes = require('./routes/users');
+const fishingholeRoutes = require('./routes/fishingholes');
+const reviewRoutes = require('./routes/reviews');
 
 
 
@@ -77,17 +78,11 @@ app.use((req, res, next) => {
 });
 
 
-//fake route to try out passport stuff
-app.get('/fakeUser', async (req, res) => {
-    const user = new User({ email: 'bc123@gmail.com', username: 'crystal' });
-    const newUser = await User.register(user, 'duck'); //pass in user object and duck=password
-    res.send(newUser); 
-});
-
 
 //app.use path and router name
-app.use('/fishingholes', fishingholes);
-app.use('/fishingholes/:id/reviews', reviews);
+app.use('/', userRoutes);
+app.use('/fishingholes', fishingholeRoutes);
+app.use('/fishingholes/:id/reviews', reviewRoutes);
 
 
 
