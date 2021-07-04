@@ -6,6 +6,9 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const ExpressError = require('./utilities/ExpressError');
 const methodOverride = require('method-override');
+const passport = require('passport');
+const localStrategy = require('passport-local'); 
+const User = require('./models/user');
 
 
 const fishingholes = require('./routes/fishingholes');
@@ -48,8 +51,22 @@ const sessionConfig = {
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }
+
+//this app.use session must come before app.use passport session (per the passport docs)
 app.use(session(sessionConfig));
 app.use(flash());
+
+
+//passport stuff 
+app.use(passport.initialize()); 
+app.use(passport.session());
+//telling passport to use localStrategy that is required
+//and for localStrategy to use authentication method on user model --automatic static method from passport 
+passport.use(new localStrategy(User.authenticate()));
+//telling passport how to serialize data (store it)
+passport.serializeUser(User.serializeUser());
+//telling passport how to deserialize data (unstore it)
+passport.deserializeUser(User.deserializeUser());
 
 
 //middleware for flash--runs on every single request
@@ -59,6 +76,13 @@ app.use((req, res, next) => {
     next();
 });
 
+
+//fake route to try out passport stuff
+app.get('/fakeUser', async (req, res) => {
+    const user = new User({ email: 'bc123@gmail.com', username: 'crystal' });
+    const newUser = await User.register(user, 'duck'); //pass in user object and duck=password
+    res.send(newUser); 
+});
 
 
 //app.use path and router name
