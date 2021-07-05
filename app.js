@@ -87,9 +87,9 @@ app.use('/fishingholes/:id/reviews', reviewRoutes);
 
 
 //home
-// app.get('/', (req, res) => {
-//     res.render('home');
-// });
+app.get('/', (req, res) => {
+    res.render('home');
+});
 
 
 

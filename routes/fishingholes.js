@@ -4,6 +4,7 @@ const catchAsync = require('../utilities/catchAsync');
 const ExpressError = require('../utilities/ExpressError');
 const Fishinghole = require('../models/fishingHole');
 const { fishingholeSchema } = require('../schemas.js');
+const { isLoggedIn } = require('../middleware');
 
 
 //function to validate fishinghole w/ JOI validation middleware
@@ -26,12 +27,12 @@ router.get('/', catchAsync(async (req, res) => {
 }));
 
 //make a NEW form and serve it 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('fishingholes/new');
 });
 
 //CREATE--this is where the form is submitted to 
-router.post('/', validateFishinghole, catchAsync(async (req, res, next) => {
+router.post('/', isLoggedIn, validateFishinghole, catchAsync(async (req, res, next) => {
     const fishinghole = new Fishinghole(req.body.fishinghole);
     await fishinghole.save();
     req.flash('success', 'Thanks for adding your Fishing Hole info!')
@@ -51,7 +52,7 @@ router.get('/:id', catchAsync(async (req, res) => {
 
 //EDIT and UPDATE
 //this route serves the edit/update form 
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const fishinghole = await Fishinghole.findById(req.params.id);
     if(!fishinghole) {
         req.flash('error', "Oh no! We cannot find that Fishing Hole!");
@@ -64,7 +65,7 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
 
 //EDIT and UPDATE
 //this route submits the edit/update form 
-router.put('/:id', validateFishinghole, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, validateFishinghole, catchAsync(async (req, res) => {
     const { id } = req.params;
     const fishinghole = await Fishinghole.findByIdAndUpdate(id, {...req.body.fishinghole});
     req.flash('success', 'Successfully updated Fishing Hole!');
@@ -73,7 +74,7 @@ router.put('/:id', validateFishinghole, catchAsync(async (req, res) => {
 
 
 //DELETE a fishing hole 
-router.delete('/:id', catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     await Fishinghole.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted a Fishing Hole!');
