@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router(); 
+const passport = require('passport');
 const catchAsync = require('../utilities/catchAsync');
 const User = require('../models/user'); 
 
@@ -24,6 +25,21 @@ router.post('/register', catchAsync (async(req, res) => {
         res.redirect('register'); 
     }
 }));
+
+
+//login route to serve the form 
+router.get('/login', (req, res) => {
+    res.render('users/login');
+});
+
+
+//this route actually logins in the user and makes sure the credentials are valid 
+router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
+    //if make it into this part, know that the user was authenticated successfully
+    req.flash('success', 'Welcome back!');
+    res.redirect('/fishingholes');
+});
+
 
 
 module.exports = router; 
