@@ -72,6 +72,7 @@ passport.deserializeUser(User.deserializeUser());
 
 //middleware for flash--runs on every single request
 app.use((req, res, next) => {
+    res.locals.currentUser = req.user; //will have access to currentUser in ALL templates w/ this 
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     next();
