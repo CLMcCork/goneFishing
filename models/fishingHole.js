@@ -9,6 +9,10 @@ const FishingholeSchema = new Schema({
     price: Number, //or parking lot price? //fishing license? 
     description: String,
     location: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     reviews: [
         {
             type: Schema.Types.ObjectId,

@@ -34,6 +34,7 @@ router.get('/new', isLoggedIn, (req, res) => {
 //CREATE--this is where the form is submitted to 
 router.post('/', isLoggedIn, validateFishinghole, catchAsync(async (req, res, next) => {
     const fishinghole = new Fishinghole(req.body.fishinghole);
+    fishinghole.author = req.user._id;
     await fishinghole.save();
     req.flash('success', 'Thanks for adding your Fishing Hole info!')
     res.redirect(`/fishingholes/${fishinghole._id}`);
@@ -41,7 +42,7 @@ router.post('/', isLoggedIn, validateFishinghole, catchAsync(async (req, res, ne
 
 //SHOW (details) Route for a single fishing hole 
 router.get('/:id', catchAsync(async (req, res) => {
-    const fishinghole = await Fishinghole.findById(req.params.id).populate('reviews');
+    const fishinghole = await (Fishinghole.findById(req.params.id).populate('reviews')).populate('author');
     if(!fishinghole) {//if didn't find fishinghole w/ that id, flash this error and redirect
         req.flash('error', "Oh no! We cannot find that Fishing Hole!");
         return res.redirect('/fishingholes');

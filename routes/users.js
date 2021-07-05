@@ -42,7 +42,7 @@ router.post('/login', passport.authenticate('local', { failureFlash: true, failu
     req.flash('success', 'Welcome back!');
     const redirectUrl = req.session.returnTo || '/fishingholes';
     delete req.session.returnTo;
-    res.redirect('redirectUrl');
+    res.redirect(redirectUrl);
 });
 
 
