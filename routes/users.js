@@ -18,8 +18,11 @@ router.post('/register', catchAsync (async(req, res) => {
         const user = new User({ email, username });
         //call User.register to take new User instance and password, hash, store salts, and add password
         const registeredUser = await User.register(user, password);
-        req.flash('success', 'Welcome to Gone Fishing!');
-        res.redirect('/fishingholes');
+        req.login(registeredUser, err => {
+            if(err) return next(err);
+            req.flash('success', 'Welcome to Gone Fishing!');
+            res.redirect('/fishingholes');
+        })
     } catch(e) {
         req.flash('error', e.message);
         res.redirect('register'); 
