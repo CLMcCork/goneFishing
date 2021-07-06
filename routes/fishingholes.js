@@ -1,23 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utilities/catchAsync');
-const ExpressError = require('../utilities/ExpressError');
+const { isLoggedIn, isAuthor, validateFishinghole } = require('../middleware');
 const Fishinghole = require('../models/fishingHole');
-const { fishingholeSchema } = require('../schemas.js');
-const { isLoggedIn } = require('../middleware');
-
-
-//function to validate fishinghole w/ JOI validation middleware
-const validateFishinghole = (req, res, next) => {
-    const { error } = fishingholeSchema.validate(req.body);
-    if(error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
-}
-
 
 
 //INDEX Route
@@ -53,16 +38,12 @@ router.get('/:id', catchAsync(async (req, res) => {
 
 //EDIT and UPDATE
 //this route serves the edit/update form 
-router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
     const { id } = req.params;
     const fishinghole = await Fishinghole.findById(id);
     if(!fishinghole) {
         req.flash('error', "Oh no! We cannot find that Fishing Hole!");
         return res.redirect('/fishingholes');
-    }
-    if(!fishinghole.author.equals(req.user._id)) {
-        req.flash('error', 'You do not have permissinon to do that!');
-        return res.redirect(`/fishingholes/${id}`);
     }
     res.render('fishingholes/edit', { fishinghole });
 }));
@@ -71,21 +52,16 @@ router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
 
 //EDIT and UPDATE
 //this route submits the edit/update form 
-router.put('/:id', isLoggedIn, validateFishinghole, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, isAuthor, validateFishinghole, catchAsync(async (req, res) => {
     const { id } = req.params;
-    const fishinghole = await Fishinghole.findById(id);
-    if(!fishinghole.author.equals(req.user._id)) {
-        req.flash('error', 'You do not have permissinon to do that!');
-        return res.redirect(`/fishingholes/${id}`);
-    }
-    const fishing = await Fishinghole.findByIdAndUpdate(id, {...req.body.fishinghole});
+    const fishinghole = await Fishinghole.findByIdAndUpdate(id, {...req.body.fishinghole});
     req.flash('success', 'Successfully updated Fishing Hole!');
     res.redirect(`/fishingholes/${fishinghole._id}`);
 }));
 
 
 //DELETE a fishing hole 
-router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
     const { id } = req.params;
     await Fishinghole.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted a Fishing Hole!');

@@ -1,25 +1,10 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-
-const catchAsync = require('../utilities/catchAsync');
-const ExpressError = require('../utilities/ExpressError');
-const { reviewSchema } = require('../schemas.js');
-
+const { validateReview } = require('../middleware');
 const Fishinghole = require('../models/fishingHole');
 const Review = require('../models/review');
-
-
-//function to validate reviews w/ JOI validation middleware
-const validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body); 
-    if(error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    } else {
-        next();
-    }
-}
-
+const ExpressError = require('../utilities/ExpressError');
+const catchAsync = require('../utilities/catchAsync');
 
 
 //POST (submits the data from the review form)
