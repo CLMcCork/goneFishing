@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-const { validateReview } = require('../middleware');
+const { validateReview, isLoggedIn } = require('../middleware');
 const Fishinghole = require('../models/fishingHole');
 const Review = require('../models/review');
 const ExpressError = require('../utilities/ExpressError');
@@ -8,11 +8,12 @@ const catchAsync = require('../utilities/catchAsync');
 
 
 //POST (submits the data from the review form)
-router.post('/', validateReview, catchAsync(async (req, res) => {
+router.post('/', isLoggedIn, validateReview, catchAsync(async (req, res) => {
     //use the id to find the fishinghole 
     const fishinghole = await Fishinghole.findById(req.params.id);
     //make a new review
     const review = new Review(req.body.review);
+    review.author = req.user._id;
     //push onto fishinghole.reviews the new review
     fishinghole.reviews.push(review);
     //save
@@ -25,7 +26,7 @@ router.post('/', validateReview, catchAsync(async (req, res) => {
 
 
 //DELETE route to delete a review for a fishinghole 
-router.delete('/:reviewId', catchAsync(async (req, res) => {
+router.delete('/:reviewId', isLoggedIn, catchAsync(async (req, res) => {
     const { id, reviewId } = req.params;
     await Fishinghole.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);
