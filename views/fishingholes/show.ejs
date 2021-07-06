@@ -12,12 +12,14 @@
               <li class="list-group-item">Submitted by: <%= fishinghole.author.username %></li>
               <li class="list-group-item">$<%= fishinghole.price %>/day</li>
             </ul>
+            <% if(currentUser && fishinghole.author.equals(currentUser._id)) { %> 
             <div class="card-body">
                 <a class="card-link btn btn-info" href="/fishingholes/<%= fishinghole._id %>/edit">Edit</a>
                 <form class="d-inline" action="/fishingholes/<%= fishinghole._id %>?_method=DELETE" method="POST">
                     <button class="btn btn-danger">Delete</button>
                 </form>
             </div>
+            <% } %> 
             <div class="card-footer text-muted">
                 2 days ago
             </div>
