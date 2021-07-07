@@ -27,7 +27,7 @@ const seedDB = async () => {
         const random1000 = Math.floor(Math.random() * 1000);
         const price = Math.floor(Math.random() * 20) + 10; 
         const hole = new Fishinghole({
-            author: '60e3384ddfb14bbb3ff3afc0',
+            author: '60e6176c6f3c6de32632101d',
             //set new fishing hole to random city/state
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
              //give a random decriptor and place for title 
@@ -41,7 +41,7 @@ const seedDB = async () => {
     }
 }
 
-seedDB(); 
+//seedDB(); 
 
 //close database connection 
 seedDB().then(() => {

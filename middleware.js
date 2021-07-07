@@ -1,6 +1,7 @@
 const ExpressError = require('./utilities/ExpressError');
 const { fishingholeSchema, reviewSchema } = require('./schemas.js'); //JOI schema
 const Fishinghole = require('./models/fishingHole');
+const Review = require('./models/review');
 
 module.exports.isLoggedIn = (req, res, next) => {
     //console.log('REQ.USER', req.user);
@@ -29,6 +30,17 @@ module.exports.isAuthor = async (req, res, next) => {
     const { id } = req.params;
     const fishinghole = await Fishinghole.findById(id);
      if(!fishinghole.author.equals(req.user._id)) { //if current user logged in doesn't own the fishinghole
+        req.flash('error', 'You do not have permission to do that!');
+        return res.redirect(`/fishingholes/${id}`);
+     }
+     next();
+ }
+
+ //middleware to verify the reviewAuthor
+ module.exports.isReviewAuthor = async (req, res, next) => {
+    const { id, reviewId} = req.params;
+    const review = await Review.findById(reviewId);
+     if(!review.author.equals(req.user._id)) { 
         req.flash('error', 'You do not have permission to do that!');
         return res.redirect(`/fishingholes/${id}`);
      }
