@@ -3,55 +3,25 @@ const router = express.Router();
 const passport = require('passport');
 const catchAsync = require('../utilities/catchAsync');
 const User = require('../models/user'); 
+const users = require('../controllers/users');
 
 //shows the register form 
-router.get('/register', (req, res) => {
-    res.render('users/register');
-});
+router.get('/register', users.renderRegister);
 
 //creates the new user (form is submitted)
-router.post('/register', catchAsync (async(req, res) => {
-    try {
-        //to make sure getting email, username and password: res.send(req.body); 
-        const { email, username, password } = req.body; //grab these 3 things from req.body
-        //pass email and username in an object to new User and save to user variable 
-        const user = new User({ email, username });
-        //call User.register to take new User instance and password, hash, store salts, and add password
-        const registeredUser = await User.register(user, password);
-        req.login(registeredUser, err => {
-            if(err) return next(err);
-            req.flash('success', 'Welcome to Gone Fishing!');
-            res.redirect('/fishingholes');
-        })
-    } catch(e) {
-        req.flash('error', e.message);
-        res.redirect('register'); 
-    }
-}));
+router.post('/register', catchAsync (users.register));
 
 
 //login route to serve the form 
-router.get('/login', (req, res) => {
-    res.render('users/login');
-});
+router.get('/login', users.renderLogin);
 
 
 //this route actually logins in the user and makes sure the credentials are valid 
-router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
-    //if make it into this part, know that the user was authenticated successfully
-    req.flash('success', 'Welcome back!');
-    const redirectUrl = req.session.returnTo || '/fishingholes';
-    delete req.session.returnTo;
-    res.redirect(redirectUrl);
-});
+router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), users.login);
 
 
 //logout
-router.get('/logout', (req, res) => {
-    req.logout();
-    req.flash('success', 'Goodbye!');
-    res.redirect('/fishingholes');
-});
+router.get('/logout', users.logout);
 
 
 module.exports = router; 
