@@ -5,19 +5,20 @@ const catchAsync = require('../utilities/catchAsync');
 const User = require('../models/user'); 
 const users = require('../controllers/users');
 
-//shows the register form 
-router.get('/register', users.renderRegister);
 
-//creates the new user (form is submitted)
-router.post('/register', catchAsync (users.register));
-
-
-//login route to serve the form 
-router.get('/login', users.renderLogin);
+router.route('/register')
+    //shows the register form 
+    .get(users.renderRegister)
+    //creates the new user (form is submitted)
+    .post(catchAsync (users.register));
 
 
-//this route actually logins in the user and makes sure the credentials are valid 
-router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), users.login);
+
+router.route('/login')
+    //login route to serve the form 
+    .get(users.renderLogin)
+    //this route actually logins in the user and makes sure the credentials are valid 
+    .post(passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), users.login);
 
 
 //logout
