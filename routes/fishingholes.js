@@ -4,13 +4,18 @@ const fishingholes = require('../controllers/fishingholes');
 const catchAsync = require('../utilities/catchAsync');
 const { isLoggedIn, isAuthor, validateFishinghole } = require('../middleware');
 const Fishinghole = require('../models/fishingHole');
+const multer  = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 router.route('/')
     //INDEX Route
     .get(catchAsync(fishingholes.index))
     //CREATE--this is where the form is submitted to 
-    .post(isLoggedIn, validateFishinghole, catchAsync(fishingholes.createFishinghole));
-
+    //.post(isLoggedIn, validateFishinghole, catchAsync(fishingholes.createFishinghole));
+    .post(upload.array('image'), (req, res) => {
+        console.log(req.body, req.files);
+        res.send("it worked!!");
+    });
 
 //make a NEW form and serve it 
 router.get('/new', isLoggedIn, fishingholes.renderNewForm);
