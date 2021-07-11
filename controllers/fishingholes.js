@@ -12,8 +12,10 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createFishinghole = async (req, res, next) => {
     const fishinghole = new Fishinghole(req.body.fishinghole);
+    fishinghole.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     fishinghole.author = req.user._id;
     await fishinghole.save();
+    console.log(fishinghole);
     req.flash('success', 'Thanks for adding your Fishing Hole info!')
     res.redirect(`/fishingholes/${fishinghole._id}`);
 }

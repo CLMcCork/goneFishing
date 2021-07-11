@@ -5,7 +5,12 @@ const Schema = mongoose.Schema;
 //schema 
 const FishingholeSchema = new Schema({
     title: String,
-    image: String,
+    images: [
+        { 
+            url: String,
+            filename: String
+        }
+    ], 
     price: Number, //or parking lot price? //fishing license? 
     description: String,
     location: String,
