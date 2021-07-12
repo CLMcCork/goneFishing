@@ -48,6 +48,9 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateFishinghole = async (req, res) => {
     const { id } = req.params;
     const fishinghole = await Fishinghole.findByIdAndUpdate(id, {...req.body.fishinghole});
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    fishinghole.images.push(...imgs);
+    await fishinghole.save();
     req.flash('success', 'Successfully updated Fishing Hole!');
     res.redirect(`/fishingholes/${fishinghole._id}`);
 }

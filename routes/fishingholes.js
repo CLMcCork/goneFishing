@@ -24,7 +24,7 @@ router.route('/:id')
     .get(catchAsync(fishingholes.showFishinghole))
     //EDIT and UPDATE
     //this route submits the edit/update form 
-    .put(isLoggedIn, isAuthor, validateFishinghole, catchAsync(fishingholes.updateFishinghole))
+    .put(isLoggedIn, isAuthor, upload.array('image'), validateFishinghole, catchAsync(fishingholes.updateFishinghole))
     //DELETE a fishing hole 
     .delete(isLoggedIn, isAuthor, catchAsync(fishingholes.deleteFishinghole));
 
