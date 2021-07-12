@@ -32,9 +32,18 @@ const seedDB = async () => {
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
              //give a random decriptor and place for title 
             title: `${sample(descriptors)} ${sample(places)}`,
-            image: 'https://source.unsplash.com/collection/2060184',
             description: 'Bacon ipsum dolor amet leberkas brisket picanha porchetta andouille chicken alcatra flank pig cow.  Chicken porchetta swine capicola meatloaf salami pork loin kielbasa, pork chop picanha alcatra beef ball tip tongue hamburger.  Short ribs spare ribs jerky, landjaeger leberkas beef chicken swine meatloaf prosciutto sirloin brisket.',
-            price
+            price,
+            images: [
+                {
+                  url: 'https://res.cloudinary.com/dvtbkorbp/image/upload/v1625942084/goneFishing/qgmnacv2jc9slxylq5rk.jpg',
+                  filename: 'goneFishing/qgmnacv2jc9slxylq5rk'
+                },
+                {
+                  url: 'https://res.cloudinary.com/dvtbkorbp/image/upload/v1625942085/goneFishing/lhcxxcss4uijiydujnad.jpg',
+                  filename: 'goneFishing/lhcxxcss4uijiydujnad'
+                }
+              ]
         })
         //save 
         await hole.save(); 
