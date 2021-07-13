@@ -1,5 +1,5 @@
 const Fishinghole = require('../models/fishingHole');
-
+const { cloudinary } = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
     const fishingholes = await Fishinghole.find({});
@@ -47,11 +47,17 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateFishinghole = async (req, res) => {
     const { id } = req.params;
-    console.log(req.body);
+    //console.log(req.body);
     const fishinghole = await Fishinghole.findByIdAndUpdate(id, {...req.body.fishinghole});
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     fishinghole.images.push(...imgs);
     await fishinghole.save();
+    if(req.body.deleteImages) {
+        for(let filename of req.body.deleteImages){
+            await cloudinary.uploader.destroy(filename);
+        }
+        await fishinghole.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages }}}})
+    }
     req.flash('success', 'Successfully updated Fishing Hole!');
     res.redirect(`/fishingholes/${fishinghole._id}`);
 }
