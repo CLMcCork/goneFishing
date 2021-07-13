@@ -27,7 +27,7 @@ module.exports.showFishinghole = async (req, res) => {
             path: 'author'
         }
       }).populate('author'));
-    console.log(fishinghole);
+    //console.log(fishinghole);
     if(!fishinghole) {//if didn't find fishinghole w/ that id, flash this error and redirect
         req.flash('error', "Oh no! We cannot find that Fishing Hole!");
         return res.redirect('/fishingholes');
@@ -47,6 +47,7 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateFishinghole = async (req, res) => {
     const { id } = req.params;
+    console.log(req.body);
     const fishinghole = await Fishinghole.findByIdAndUpdate(id, {...req.body.fishinghole});
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     fishinghole.images.push(...imgs);
