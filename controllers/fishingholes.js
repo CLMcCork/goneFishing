@@ -1,4 +1,7 @@
 const Fishinghole = require('../models/fishingHole');
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken});
 const { cloudinary } = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
@@ -11,13 +14,18 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createFishinghole = async (req, res, next) => {
-    const fishinghole = new Fishinghole(req.body.fishinghole);
-    fishinghole.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
-    fishinghole.author = req.user._id;
-    await fishinghole.save();
-    console.log(fishinghole);
-    req.flash('success', 'Thanks for adding your Fishing Hole info!')
-    res.redirect(`/fishingholes/${fishinghole._id}`);
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.fishinghole.location,
+        limit: 1
+    }).send()
+    res.send(geoData.body.features[0].geometry.coordinates);
+    // const fishinghole = new Fishinghole(req.body.fishinghole);
+    // fishinghole.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    // fishinghole.author = req.user._id;
+    // await fishinghole.save();
+    // console.log(fishinghole);
+    // req.flash('success', 'Thanks for adding your Fishing Hole info!')
+    // res.redirect(`/fishingholes/${fishinghole._id}`);
 }
 
 module.exports.showFishinghole = async (req, res) => {
@@ -56,7 +64,7 @@ module.exports.updateFishinghole = async (req, res) => {
         for(let filename of req.body.deleteImages){
             await cloudinary.uploader.destroy(filename);
         }
-        await fishinghole.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages }}}})
+        await fishinghole.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages }}}});
     }
     req.flash('success', 'Successfully updated Fishing Hole!');
     res.redirect(`/fishingholes/${fishinghole._id}`);
