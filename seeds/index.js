@@ -34,6 +34,10 @@ const seedDB = async () => {
             title: `${sample(descriptors)} ${sample(places)}`,
             description: 'Bacon ipsum dolor amet leberkas brisket picanha porchetta andouille chicken alcatra flank pig cow.  Chicken porchetta swine capicola meatloaf salami pork loin kielbasa, pork chop picanha alcatra beef ball tip tongue hamburger.  Short ribs spare ribs jerky, landjaeger leberkas beef chicken swine meatloaf prosciutto sirloin brisket.',
             price,
+            geometry: {
+                type: "Point",
+                coordinates: [-118.2439, 34.0544]
+            },
             images: [
                 {
                   url: 'https://res.cloudinary.com/dvtbkorbp/image/upload/v1625942084/goneFishing/qgmnacv2jc9slxylq5rk.jpg',
