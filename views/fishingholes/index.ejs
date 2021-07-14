@@ -7,7 +7,12 @@
     <% for (let fishinghole of fishingholes) { %>
     <div class="card" mb-3>
         <div class="col-md-4">
-            <img class="img-fluid" src="<%=fishinghole.images[0].url %>" alt="Fishing Hole Image">
+            <% if(fishinghole.images.length) { %>
+            <img class="img-fluid" alt="Fishing Hole Image" src="<%= fishinghole.images[0].url %>">
+            <% } else { %>
+            <img class="img-fluid" alt="Fishing Hole Image">
+                src="https://res.cloudinary.com/dvtbkorbp/image/upload/v1626130508/goneFishing/v96o6yivg96dmcm76zlw.jpg"
+            <% } %>
         </div>
         <div class="col-md-8">
         <div class="card-body">
