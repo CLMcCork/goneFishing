@@ -18,14 +18,14 @@ module.exports.createFishinghole = async (req, res, next) => {
         query: req.body.fishinghole.location,
         limit: 1
     }).send()
-    res.send(geoData.body.features[0].geometry.coordinates);
-    // const fishinghole = new Fishinghole(req.body.fishinghole);
-    // fishinghole.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
-    // fishinghole.author = req.user._id;
-    // await fishinghole.save();
-    // console.log(fishinghole);
-    // req.flash('success', 'Thanks for adding your Fishing Hole info!')
-    // res.redirect(`/fishingholes/${fishinghole._id}`);
+    const fishinghole = new Fishinghole(req.body.fishinghole);
+    fishinghole.geometry = geoData.body.features[0].geometry;
+    fishinghole.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    fishinghole.author = req.user._id;
+    await fishinghole.save();
+    console.log(fishinghole);
+    req.flash('success', 'Thanks for adding your Fishing Hole info!')
+    res.redirect(`/fishingholes/${fishinghole._id}`);
 }
 
 module.exports.showFishinghole = async (req, res) => {

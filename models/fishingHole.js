@@ -17,7 +17,18 @@ ImageSchema.virtual('thumbnail').get(function() {
 //schema 
 const FishingholeSchema = new Schema({
     title: String,
-    images: [ImageSchema], 
+    images: [ImageSchema],
+    geometry: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
+    },
     price: Number, //or parking lot price? //fishing license? 
     description: String,
     location: String,
