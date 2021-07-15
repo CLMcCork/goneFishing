@@ -23,7 +23,7 @@ const seedDB = async () => {
     //clear everything in DB 
     await Fishinghole.deleteMany({});
     //loop through 50xs to get a random city/state
-    for(let i = 0; i < 50; i++){
+    for(let i = 0; i < 300; i++){
         const random1000 = Math.floor(Math.random() * 1000);
         const price = Math.floor(Math.random() * 20) + 10; 
         const hole = new Fishinghole({
@@ -36,7 +36,10 @@ const seedDB = async () => {
             price,
             geometry: {
                 type: "Point",
-                coordinates: [-118.2439, 34.0544]
+                coordinates: [
+                    cities[random1000].longitude,
+                    cities[random1000].latitude
+                ]
             },
             images: [
                 {
