@@ -59,6 +59,12 @@ module.exports.updateFishinghole = async (req, res) => {
     const fishinghole = await Fishinghole.findByIdAndUpdate(id, {...req.body.fishinghole});
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     fishinghole.images.push(...imgs);
+    //below updates the geolocation (so if changed location the map shows new location)
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.fishinghole.location,
+        limit: 1
+    }).send()
+    fishinghole.geometry = geoData.body.features[0].geometry;
     await fishinghole.save();
     if(req.body.deleteImages) {
         for(let filename of req.body.deleteImages){
