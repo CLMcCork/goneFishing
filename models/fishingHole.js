@@ -14,6 +14,8 @@ ImageSchema.virtual('thumbnail').get(function() {
 });
 
 
+const opts = { toJSON: { virtuals: true } };
+
 //schema 
 const FishingholeSchema = new Schema({
     title: String,
@@ -42,8 +44,13 @@ const FishingholeSchema = new Schema({
             ref: 'Review'
         }
     ]
-});
+}, opts);
 
+
+FishingholeSchema.virtual('properties.popUpMarkup').get(function() {
+    return `<strong><a href="/fishingholes/${this._id}">${this.title}</a><strong>
+    <p>${this.description.substring(0, 20)}...</p>`
+});
 
 
 //this is query mongoose middleware
