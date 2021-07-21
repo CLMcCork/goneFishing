@@ -47,8 +47,8 @@ const seedDB = async () => {
                   filename: 'goneFishing/qgmnacv2jc9slxylq5rk'
                 },
                 {
-                  url: 'https://res.cloudinary.com/dvtbkorbp/image/upload/v1625942085/goneFishing/lhcxxcss4uijiydujnad.jpg',
-                  filename: 'goneFishing/lhcxxcss4uijiydujnad'
+                  url: 'https://res.cloudinary.com/dvtbkorbp/image/upload/v1626908239/goneFishing/ju2nzss3cagl3dntgcie.jpg',
+                  filename: 'goneFishing/ju2nzss3cagl3dntgcie'
                 }
               ]
         })
