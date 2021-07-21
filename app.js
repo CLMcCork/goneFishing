@@ -17,14 +17,19 @@ const helmet = require('helmet');
 
 const mongoSanitize = require('express-mongo-sanitize');
 
+const MongoStore = require('connect-mongo');
+
 
 const userRoutes = require('./routes/users');
 const fishingholeRoutes = require('./routes/fishingholes');
 const reviewRoutes = require('./routes/reviews');
+//const dbUrl = process.env.DB_URL;
 
+const dbUrl = 'mongodb://localhost:27017/fishing-hole';
 
-
-mongoose.connect('mongodb://localhost:27017/fishing-hole', {
+//mongoose.connect('mongodb://localhost:27017/fishing-hole', {
+//mongoose.connect(dbUrl, {
+mongoose.connect( dbUrl, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -50,7 +55,20 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
 
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: 'thiswillbeasecrethereeventually!'
+    }
+});
+
+store.on('error', function (e) {
+    console.log("Session Store Error", e)
+});
+
 const sessionConfig = {
+    store,
     name: 'session',
     secret: 'thiswillbeasecrethereeventually',
     resave: false,
