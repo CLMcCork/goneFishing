@@ -14,7 +14,6 @@ const passport = require('passport');
 const localStrategy = require('passport-local'); 
 const User = require('./models/user');
 const helmet = require('helmet');
-
 const mongoSanitize = require('express-mongo-sanitize');
 
 const MongoStore = require('connect-mongo');
@@ -25,7 +24,7 @@ const fishingholeRoutes = require('./routes/fishingholes');
 const reviewRoutes = require('./routes/reviews');
 //const dbUrl = process.env.DB_URL;
 
-const dbUrl = 'mongodb://localhost:27017/fishing-hole';
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/fishing-hole';
 
 //mongoose.connect('mongodb://localhost:27017/fishing-hole', {
 //mongoose.connect(dbUrl, {
@@ -55,11 +54,13 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
 
+const secret = process.env.SECRET || 'thiswillbeasecrethereeventually!';
+
 const store = MongoStore.create({
     mongoUrl: dbUrl,
     touchAfter: 24 * 60 * 60,
     crypto: {
-        secret: 'thiswillbeasecrethereeventually!'
+        secret,
     }
 });
 
@@ -70,7 +71,7 @@ store.on('error', function (e) {
 const sessionConfig = {
     store,
     name: 'session',
-    secret: 'thiswillbeasecrethereeventually',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -96,6 +97,7 @@ const scriptSrcUrls = [
     "https://cdnjs.cloudflare.com/",
     "https://cdn.jsdelivr.net",
     "https://unpkg.com/",
+    "https://fonts.gstatic.com/",
 ];
 const styleSrcUrls = [
     "https://cdn.jsdelivr.net",
@@ -106,6 +108,7 @@ const styleSrcUrls = [
     "https://fonts.googleapis.com/",
     "https://use.fontawesome.com/",
     "https://unpkg.com/",
+    "https://fonts.gstatic.com/",
 ];
 const connectSrcUrls = [
     "https://api.mapbox.com/",
@@ -130,7 +133,9 @@ app.use(
                 "data:",
                 "https://res.cloudinary.com/dvtbkorbp/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
                 "https://images.unsplash.com/",
-                "https://unpkg.com/"
+                "https://unpkg.com/",
+                "https://fonts.gstatic.com/",
+                "https://fonts.googleapis.com/",
             ],
             fontSrc: ["'self'", ...fontSrcUrls],
         },
