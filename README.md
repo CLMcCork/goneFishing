@@ -29,22 +29,23 @@ Things I learned while working on this project:
 
 
 Things I would like to improve/add to this project: (putting this here for accountability 💪 ) 
--not a fan of the mobile layout-fix this! 
--make sure mapbox, pins, and fishingholes show up on index page when on mobile 
--infinite scroll on reviews page? (in case there are lots of reviews for a fishing hole) 
--add pagination on index page
--maybe add a thumbnail image or number of stars (from review) to the popup box (And remove hyperlink? so it looks better) 
--on home page, move nav bar brand to far left and links to far right of page? improve the look of this page  
--Rock Salt google fonts for title (issue w/ CSP not accepting it--need to research) 
--the edit/delete option looks weird—need to fix when deleting a photo 
--fish favicon for tab 
--make sure everything is accessible!! (and also make sure works in different browsers) 
--include some of my seed data so there are more pins on the map/more fishing holes on index page
--add a search bar to search for a fishing hole 
--create a password reset option 
--option to pay for fishing hole fee w/in the app--is there a free payment api? how to test this b/c don't want to take real payments (this is not a business page)?  -host project on my website--need to change the heroku link to include my domain (figure this out) 
--how to make this readme file look better on github
--make all images on index page same height as on the show page
+🐠 not a fan of the mobile layout look-it's not fully responsie yet-fix this! 
+🐡 make sure mapbox, pins, and fishingholes show up on index page when on mobile 
+🐟 infinite scroll on reviews page? (in case there are lots of reviews for a fishing hole) 
+🎣 add pagination on index page
+🐠 maybe add a thumbnail image or number of stars (from review) to the popup box (And remove hyperlink? so it looks better) 
+🐡 on home page, move nav bar brand to far left and links to far right of page? improve the look of this page  
+🐟 Rock Salt google fonts for title (issue w/ CSP not accepting it--need to research) 
+🎣 the edit/delete option looks weird—need to fix when deleting a photo 
+🐠 fish favicon for tab 
+🐡 make sure everything is accessible!! (and also make sure works in different browsers) 
+🐟 include some of my seed data so there are more pins on the map/more fishing holes on index page
+🎣 add a search bar to search for a fishing hole 
+🐠 create a password reset option 
+🐡 option to pay for fishing hole fee w/in the app--is there a free payment api? how to test this b/c don't want to take real payments
+🐟 host project on my website--need to change the heroku link to include my domain (figure this out) 
+🎣 how to make this readme file look better on github
+🐠 make all images on index page same height as on the show page
 
 
 Finally, I'd like to thank Colt Steele, the instructor for the Web Developer Bootcamp on Udemy. I just finished his course on July 22, 2021. My Gone Fishing project was based off of the YelpCamp project in Colt's course. I learned so much from his course, doing YelpCamp, and then working on this project. I'm excited to keep learning and to begin my next coding adventure! 
