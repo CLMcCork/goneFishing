@@ -21,16 +21,17 @@ Languages/tools I used:
 
 
 Things I learned while working on this project: 
-1. Coding is hard (I alreay knew this 😊). Coding is also extremely fun! 🎉🤓 (Somthing I already knew as well, but it's worth pointing these statements out as a reminder to my future self to KEEP GOING!). 
+1. Coding is hard (I already knew this 😊). Coding is also extremely fun! 🎉🤓 (Something I already knew as well, but it's worth pointing these statements out as a reminder to my future self to KEEP GOING!). 
 2. It's tough to estimate how long things will take to get done when you are a newbie. A seemingly "easy" task can take hours. 
 3. Beware of the rabbit holes when researching!  
 4. One of the best ways to solve a bug is to take a break, a walk, or just sleep on it. A new perspective is always helpful. 
 5. Learning is a community driven activity. There are so many helpful resources, videos, mentors, and documents out there in the tech field. As I grow and learn more, I hope to become a resource for others and lend an ear for anyone that needs to rubber duck a bug. 
+6. Sometimes done is better than perfection. There is always room for improvement (see list below 😉)
 
 
 Things I would like to improve/add to this project: (putting this here for accountability 💪 ) 
 🐠 not a fan of the mobile layout look-it's not fully responsive yet-fix this! 
-🐡 make sure mapbox, pins, and fishingholes show up on index page when on mobile 
+🐡 make sure mapbox, pins, and fishing holes show up on index page when on mobile 
 🐟 infinite scroll on reviews page? (in case there are lots of reviews for a fishing hole) 
 🎣 add pagination on index page
 🐠 maybe add a thumbnail image or number of stars (from review) to the popup box (And remove hyperlink? so it looks better) 
