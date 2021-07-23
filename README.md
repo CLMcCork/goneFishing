@@ -43,6 +43,7 @@ Things I would like to improve/add to this project: (putting this here for accou
 -add a search bar to search for a fishing hole 
 -create a password reset option 
 -option to pay for fishing hole fee w/in the app--is there a free payment api? how to test this b/c don't want to take real payments (this is not a business page)?  -host project on my website--need to change the heroku link to include my domain (figure this out) 
+-how to make this readme file look better on github
 
 
 Finally, I'd like to thank Colt Steele, the instructor for the Web Developer Bootcamp on Udemy. I just finished his course on July 22, 2021. My Gone Fishing project was based off of the YelpCamp project in Colt's course. I learned so much from his course, doing YelpCamp, and then working on this project. I'm excited to keep learning and to begin my next coding adventure! 
