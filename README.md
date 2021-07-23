@@ -29,7 +29,7 @@ Things I learned while working on this project:
 
 
 Things I would like to improve/add to this project: (putting this here for accountability 💪 ) 
-🐠 not a fan of the mobile layout look-it's not fully responsie yet-fix this! 
+🐠 not a fan of the mobile layout look-it's not fully responsive yet-fix this! 
 🐡 make sure mapbox, pins, and fishingholes show up on index page when on mobile 
 🐟 infinite scroll on reviews page? (in case there are lots of reviews for a fishing hole) 
 🎣 add pagination on index page
